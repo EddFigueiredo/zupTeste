@@ -1,0 +1,18 @@
+---
+- name: Install nginx
+  yum: name=nginx state=present
+
+- name: Copy configuration file
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: Copy reverse proxy configuration file
+  copy: src=reverseproxy.conf dest=/etc/nginx/conf.d/reverseproxy.conf
+
+- name: Create SSL directoty
+  file: path=/etc/nginx/ssl state=directory owner=root group=root mode=0644
+
+- name: Create certificates
+  command: openssl req -x509 -nodes -subj "/C=BR/ST=MG/L=Udia/O=IT/CN=." -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/domain.key -out /etc/nginx/ssl/domain.crt
+
+- name: Start Nginx
+  service: name=nginx state=started enabled=yes

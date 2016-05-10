@@ -1,0 +1,7 @@
+---
+# Download Iptables Services
+- name: Download Iptables Services
+  yum: name=iptables-services state=present
+
+- name: Starting iptables on boot
+  command: systemctl enable iptables

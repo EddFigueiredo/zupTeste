@@ -1,0 +1,27 @@
+---
+- name: Add mongo rep
+  copy: src=mongodb-org-3.2.repo dest=/etc/yum.repos.d/mongodb-org-3.2.repo
+
+- name: Installing MongoDB
+  yum: name={{ item }} state=present
+  with_items:
+   - mongodb-org
+   - python-pymongo
+
+- name: Initiate MongoDB
+  service: name=mongod state=started enabled=yes
+
+- name: Create ZupDB
+  mongodb_user: database=ZupDB name=zupadmin password=zuppass roles='readWrite' state=present
+
+- name: Copying config file
+  copy: src=setup_zupdb.sh dest=/tmp/setup_zupdb.sh
+
+- name: Executing config script
+  script: setup_zupdb.sh chdir=/tmp
+
+- name: Updating configuration file
+  copy: src=mongod.conf dest=/etc/mongod.conf
+
+- name: MongoDB restart
+  service: name=mongod state=restarted

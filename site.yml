@@ -1,0 +1,14 @@
+---
+# This playbook deploys a simple standalone Tomcat 7 server. 
+
+- hosts: tomcat-servers 
+  remote_user: "{{ uservar }}"
+  sudo: true
+  sudo_user: root
+
+  roles:
+    - selinux
+    - iptables
+    - tomcat
+    - nginx
+    - mongodb
