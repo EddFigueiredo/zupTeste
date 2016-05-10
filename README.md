@@ -14,6 +14,7 @@ O playbook é executado localmente, com o usuário local admin. Para executar in
 	ansible-playbook -i hosts site.yml
 
 Para alterar o usuário inicie com:
+
 	ansible-playbook -i hosts site.yml -e "uservar=usuario"
 
 O usuário para login na base de dados MongoDB e para o gerenciador de aplicações do tomcat é:
